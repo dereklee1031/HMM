@@ -1,7 +1,3 @@
-Below is a cleaned-up version of the `README.md` without formatting issues. It uses standard Markdown conventions and should render cleanly on GitHub.
-
----
-
 # HMM Regime Detection for S&P 500
 
 ## Overview
@@ -65,6 +61,3 @@ Use these results to understand how the market transitions between different sta
 ## License
 This project is for educational and illustrative purposes. Consult the repository owner for licensing details, if any.
 
----
-
-This README provides a clear, structured overview without formatting issues.
