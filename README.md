@@ -1,76 +1,54 @@
+HMM Regime Detection for S&P 500
+Overview
+This project uses a Hidden Markov Model (HMM) to identify different "regimes" in the S&P 500 over time. Each regime represents a market environment characterized by distinct statistical properties of returns. For example, one regime might be stable and growing (often considered "bullish"), while another might be volatile or declining ("bearish").
 
+Key Steps:
 
-```markdown
-# HMM Regime Detection for S&P 500
-
-## Overview
-This project uses a Hidden Markov Model (HMM) to identify different "regimes" in the S&P 500 over time. A regime can be thought of as a persistent market environment—such as stable growth periods (bullish) and turbulent, declining periods (bearish).
-
-**Key steps in this project:**
-1. **Data Acquisition:**  
-   Download historical S&P 500 data from Yahoo Finance.
-2. **Preprocessing:**  
-   Convert daily data to weekly frequency and compute weekly log returns.
-3. **HMM Fitting:**  
-   Fit a Gaussian HMM to the returns time series to uncover hidden states (regimes).
-4. **Visualization:**  
-   Plot the S&P 500 price with shaded regions indicating the identified regimes, and a separate subplot showing the probability of each state over time.
-
-## Project Structure
-```
+Download historical S&P 500 data from Yahoo Finance.
+Resample daily data to weekly frequency to reduce noise.
+Compute weekly log returns.
+Fit a Gaussian HMM to uncover hidden states (regimes).
+Visualize the results: a price chart with shaded regions for regimes and a separate plot showing state probabilities over time.
+Project Structure
+bash
+Copy code
 HMM/
 ├─ data/
-│  └─ sp500_data.csv          # Automatically downloaded historical S&P 500 data
+│  └─ sp500_data.csv        # Automatically downloaded data
 ├─ scripts/
-│  ├─ run_analysis.py         # Main script to run data fetching, modeling, and plotting
-│  └─ requirements.txt        # Dependencies (yfinance, pandas, numpy, matplotlib, hmmlearn, scipy)
+│  ├─ run_analysis.py       # Main script: fetch data, model, and plot
+│  └─ requirements.txt      # Dependencies (yfinance, pandas, numpy, matplotlib, hmmlearn, scipy)
 └─ results/
-   └─ regimes_plot.png        # The final visualization of regimes
-```
+   └─ regimes_plot.png      # Final visualization of identified regimes
+Setup Instructions
+Install Dependencies: From the scripts directory:
 
-## Setup Instructions
-1. **Clone the Repository and Navigate:**
-   ```bash
-   cd HMM/scripts
-   ```
+Copy code
+pip install -r requirements.txt
+Run the Analysis:
 
-2. **Install Required Packages:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Copy code
+python3 run_analysis.py
+If sp500_data.csv does not exist, it will be downloaded. Then the script preprocesses the data, fits the HMM, and saves the resulting plot to results/regimes_plot.png.
 
-3. **Run the Analysis:**
-   ```bash
-   python3 run_analysis.py
-   ```
-   - If data does not exist, it will be downloaded automatically.
-   - The script will then preprocess the data, fit the HMM, produce the regime plot, and save it in the `results` folder.
+Interpreting the Results
+Open results/regimes_plot.png to see the output.
 
-## Interpreting the Results
-After running the script, open `HMM/results/regimes_plot.png`. You’ll see:
+Top Plot:
+Black line: S&P 500 adjusted close price.
+Shaded regions: Indicate which state (regime) the HMM believes the market is in. Each color represents a different regime.
+Bottom Plot:
+State probability lines: Show the model’s confidence in each regime over time. A probability near 1 means the model is certain the market is in that state.
+Use these results to understand how the market transitions between different states. Do the regimes align with known bull/bear phases or major economic events?
 
-- **Price Line (Top Subplot):**  
-  The black line represents the historical S&P 500 prices over the chosen period.
-- **Colored Shading (Top Subplot):**  
-  Background colors indicate which HMM state is active. Each state corresponds to a particular statistical regime. For example:
-  - **State 0:** Could represent a stable or growth-oriented period.
-  - **State 1:** Could represent a more volatile or declining period.
-  
-  (The actual interpretation depends on the extracted state statistics.)
-
-- **State Probabilities (Bottom Subplot):**  
-  The lower panel shows the model’s probability estimates for each state over time. This helps you understand the model’s confidence and see how quickly or slowly the market transitions between regimes.
-
-## Adjustments and Experimentation
-If you find the regimes switch too often or don’t make intuitive sense, you can try:
-
-- **Changing the number of states (N_STATES)** in `run_analysis.py`.
-- **Adjusting the data frequency** (e.g., monthly instead of weekly).
-- **Adding more features** (like volatility measures or volume changes).
-- **Increasing smoothing or applying a different smoothing strategy** to reduce noise.
-
-## Future Directions
-- Incorporate multiple features into the HMM (returns + volatility).
-- Compare different models (e.g., a 3-state HMM vs. a 2-state HMM).
-- Test trading or risk management strategies based on identified regimes.
-
+Adjustments and Experimentation
+Change N_STATES in run_analysis.py to see if fewer or more states produce clearer regimes.
+Experiment with monthly data instead of weekly for different levels of smoothing.
+Add additional features (e.g., volatility measures) to help the HMM distinguish regimes more clearly.
+Apply smoothing techniques or filters to the states if they switch too frequently.
+Future Directions
+Incorporate multiple features (e.g., returns and volatility) for richer regime definitions.
+Explore different HMM variants (e.g., Gaussian Mixture emissions).
+Use identified regimes to develop trading or risk management strategies and test their performance.
+License
+This project is for educational and illustrative purposes. Consult the repository owner for licensing details, if any.
